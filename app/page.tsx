@@ -1,51 +1,81 @@
-import Monogram from "@/components/Monogram";
 import FloralDivider from "@/components/FloralDivider";
 import Countdown from "@/components/Countdown";
 import RsvpForm from "@/components/RsvpForm";
 import Link from "next/link";
+import Image from "next/image";
 
 const WEDDING_DATE = "2026-11-21T16:00:00-03:00";
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
-      {/* HERO */}
-      <section className="flex flex-col items-center justify-center px-6 py-24 text-center">
-        <Monogram size={140} />
-        <p className="reveal mt-8 max-w-md text-xl text-olive leading-relaxed">
-          Con mucha alegría te invitamos a compartir nuestro casamiento
-        </p>
-        <h1 className="reveal mt-6 font-script text-6xl text-olive sm:text-7xl">
-          Isabella y Luciano
-        </h1>
-        <p className="reveal mt-6 text-3xl text-gold">21 de noviembre de 2026</p>
-        <FloralDivider />
-        <Countdown targetDate={WEDDING_DATE} />
+    <main className="min-h-screen bg-cream">
+
+      {/* HERO — arco con personas */}
+      <section className="relative flex flex-col items-center justify-center text-center">
+        <div className="relative w-full max-w-lg mx-auto">
+          <Image
+            src="/arch-party.jpg"
+            alt="Isabella y Luciano"
+            width={640}
+            height={860}
+            className="w-full"
+            priority
+          />
+          {/* Texto superpuesto dentro del arco */}
+          <div className="absolute inset-0 flex flex-col items-center justify-start pt-[18%] px-8">
+            <p className="text-olive/80 text-base sm:text-lg leading-relaxed max-w-xs">
+              Con mucha alegría te invitamos a compartir nuestro casamiento
+            </p>
+            <h1 className="font-script text-5xl sm:text-6xl text-olive mt-4 leading-tight">
+              Isabella y Luciano
+            </h1>
+            <p className="mt-3 text-xl sm:text-2xl tracking-widest text-gold uppercase">
+              21 de Noviembre de 2026
+            </p>
+            <div className="mt-4">
+              <Countdown targetDate={WEDDING_DATE} />
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* CRONOGRAMA */}
-      <section className="px-6 py-16 text-center">
-        <h2 className="font-script text-4xl text-olive">Programa</h2>
-        <FloralDivider />
-        <div className="mx-auto mt-8 max-w-md space-y-6 text-lg text-ink">
-          <div>
-            <p className="text-gold text-xl">16:00 hs</p>
-            <p>Ceremonia · Iglesia Evangélica Bautista de Haedo</p>
-            <p className="text-sm text-olive-light">Chacabuco 289, Haedo</p>
-          </div>
-          <div>
-            <p className="text-gold text-xl">18:00 hs</p>
-            <p>Celebración · Brindis</p>
-            <p className="text-sm text-olive-light">Agrelo 1013, Francisco Álvarez</p>
+      {/* CRONOGRAMA — arco botánico de fondo */}
+      <section className="relative text-center">
+        <div className="relative w-full max-w-lg mx-auto">
+          <Image
+            src="/arch-botanical.jpg"
+            alt=""
+            width={640}
+            height={860}
+            className="w-full"
+            aria-hidden
+          />
+          <div className="absolute inset-0 flex flex-col items-center justify-center px-16 pb-[15%]">
+            <h2 className="font-script text-4xl sm:text-5xl text-olive">Programa</h2>
+            <div className="mt-6 space-y-5 text-base sm:text-lg text-ink">
+              <div>
+                <p className="text-gold tracking-widest uppercase text-sm">16:00 hs</p>
+                <p>Ceremonia</p>
+                <p className="text-xs text-olive-light">Iglesia Evangélica Bautista de Haedo</p>
+                <p className="text-xs text-olive-light">Chacabuco 289, Haedo</p>
+              </div>
+              <div>
+                <p className="text-gold tracking-widest uppercase text-sm">18:00 hs</p>
+                <p>Celebración · Brindis</p>
+                <p className="text-xs text-olive-light">Agrelo 1013, Francisco Álvarez</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* VESTIMENTA */}
-      <section className="bg-olive/5 px-6 py-16 text-center">
-        <h2 className="text-2xl tracking-widest text-olive">EL CÓDIGO DE VESTIMENTA ES</h2>
+      <section className="px-6 py-16 text-center">
+        <p className="text-sm tracking-widest text-olive uppercase">El código de vestimenta es</p>
         <p className="font-script text-5xl text-olive mt-2">Elegante</p>
       </section>
+
+      <FloralDivider />
 
       {/* RSVP */}
       <section id="rsvp" className="px-6 py-16 text-center">
