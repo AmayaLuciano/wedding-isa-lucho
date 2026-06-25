@@ -17,7 +17,7 @@ const pinyon = Pinyon_Script({
 });
 
 export const metadata: Metadata = {
-  title: "Isabella y Luciano | 14 de marzo de 2026",
+  title: "Isabella y Luciano | 21 de noviembre de 2026",
   description: "Con mucha alegría te invitamos a compartir nuestro casamiento.",
 };
 

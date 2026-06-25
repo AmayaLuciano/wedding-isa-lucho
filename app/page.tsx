@@ -4,7 +4,7 @@ import Countdown from "@/components/Countdown";
 import RsvpForm from "@/components/RsvpForm";
 import Link from "next/link";
 
-const WEDDING_DATE = "2026-03-14T16:00:00-03:00";
+const WEDDING_DATE = "2026-11-21T16:00:00-03:00";
 
 export default function Home() {
   return (
@@ -18,7 +18,7 @@ export default function Home() {
         <h1 className="reveal mt-6 font-script text-6xl text-olive sm:text-7xl">
           Isabella y Luciano
         </h1>
-        <p className="reveal mt-6 text-3xl text-gold">14 de marzo de 2026</p>
+        <p className="reveal mt-6 text-3xl text-gold">21 de noviembre de 2026</p>
         <FloralDivider />
         <Countdown targetDate={WEDDING_DATE} />
       </section>
@@ -74,7 +74,7 @@ export default function Home() {
       </section>
 
       <footer className="pb-10 text-center text-sm text-olive-light">
-        Isabella &amp; Luciano · 14/03/2026
+        Isabella &amp; Luciano · 21/11/2026
       </footer>
     </main>
   );
