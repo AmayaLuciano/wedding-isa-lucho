@@ -35,7 +35,7 @@ export default function Home() {
           </div>
           <div>
             <p className="text-gold text-xl">18:00 hs</p>
-            <p>Celebración</p>
+            <p>Celebración · Brindis</p>
             <p className="text-sm text-olive-light">Agrelo 1013, Francisco Álvarez</p>
           </div>
         </div>
