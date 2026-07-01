@@ -12,3 +12,6 @@ out/
 # misc
 .DS_Store
 *.pem
+
+# Claude Code local config
+.claude/

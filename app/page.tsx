@@ -1,6 +1,6 @@
-import FloralDivider from "@/components/FloralDivider";
 import Countdown from "@/components/Countdown";
 import RsvpForm from "@/components/RsvpForm";
+import { BotanicalCorner, BotanicalBranch, BotanicalSprig } from "@/components/Botanical";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -8,26 +8,26 @@ const WEDDING_DATE = "2026-11-21T16:00:00-03:00";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-cream overflow-x-hidden">
+    <main className="relative min-h-screen overflow-x-hidden">
+
+      {/* MARCO — el arco encuadra sutilmente todo el contenido */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <Image
+          src="/arch-botanical.jpg"
+          alt=""
+          fill
+          className="object-cover opacity-[0.09]"
+          aria-hidden
+          priority
+        />
+      </div>
+
+      <div className="relative z-10">
 
       {/* HERO */}
-      <section className="relative flex flex-col items-center justify-center text-center px-6 pt-20 pb-4">
-        {/* Decoración botánica arriba */}
-        <div className="absolute top-0 left-0 right-0 h-48 overflow-hidden pointer-events-none">
-          <Image
-            src="/arch-party.jpg"
-            alt=""
-            width={640}
-            height={860}
-            className="w-full object-cover object-top opacity-40"
-            aria-hidden
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-cream" />
-        </div>
-
+      <section className="relative flex flex-col items-center justify-center text-center px-6 pt-28 pb-4">
         {/* Contenido */}
-        <div className="relative z-10 mt-24">
+        <div className="relative z-10">
           <p className="text-sm tracking-[0.3em] text-olive-light uppercase mb-6">
             Con mucha alegría te invitamos a compartir
           </p>
@@ -40,15 +40,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CONTADOR — fuera de la imagen, sobre fondo limpio */}
-      <div className="flex justify-center gap-10 pb-10 bg-cream">
+      {/* CONTADOR */}
+      <div className="flex justify-center gap-10 pb-10">
         <Countdown targetDate={WEDDING_DATE} />
       </div>
 
-      <FloralDivider />
+      <BotanicalSprig className="mx-auto w-40 text-olive-pale" />
 
-      {/* CRONOGRAMA */}
-      <section className="px-6 py-20 text-center">
+      {/* CRONOGRAMA — enmarcado con ramos de esquina */}
+      <section className="relative px-6 py-20 text-center overflow-hidden">
+        <BotanicalCorner className="pointer-events-none absolute -top-2 -left-6 w-40 h-40 text-olive-pale/50" />
+        <BotanicalCorner className="pointer-events-none absolute -top-2 -right-6 w-40 h-40 text-olive-pale/50 -scale-x-100" />
         <p className="text-xs tracking-[0.4em] text-olive-light uppercase mb-2">Ese día</p>
         <h2 className="font-script text-5xl text-olive">Programa</h2>
         <div className="mx-auto mt-12 max-w-xs space-y-10">
@@ -67,7 +69,7 @@ export default function Home() {
         </div>
       </section>
 
-      <FloralDivider />
+      <BotanicalSprig className="mx-auto w-40 text-olive-pale" />
 
       {/* VESTIMENTA */}
       <section className="px-6 py-20 text-center">
@@ -75,7 +77,7 @@ export default function Home() {
         <p className="font-script text-6xl text-olive mt-2">Elegante</p>
       </section>
 
-      <FloralDivider />
+      <BotanicalSprig className="mx-auto w-40 text-olive-pale" />
 
       {/* RSVP */}
       <section id="rsvp" className="px-6 py-20 text-center">
@@ -84,10 +86,12 @@ export default function Home() {
         <RsvpForm />
       </section>
 
-      <FloralDivider />
+      <BotanicalSprig className="mx-auto w-40 text-olive-pale" />
 
-      {/* REGALOS + ALIAS */}
-      <section className="px-6 py-20 text-center">
+      {/* REGALOS + ALIAS — con ramas laterales tenues */}
+      <section className="relative px-6 py-20 text-center overflow-hidden">
+        <BotanicalBranch className="pointer-events-none absolute top-8 -left-8 w-20 h-[26rem] text-olive-pale/25" />
+        <BotanicalBranch className="pointer-events-none absolute top-8 -right-8 w-20 h-[26rem] text-olive-pale/25 -scale-x-100" />
         <p className="text-xs tracking-[0.4em] text-olive-light uppercase mb-2">Un obsequio</p>
         <h2 className="font-script text-5xl text-olive">Lista de regalos</h2>
         <p className="mt-6 max-w-sm mx-auto text-base text-ink leading-relaxed">
@@ -107,22 +111,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer con imagen decorativa */}
-      <div className="relative h-40 overflow-hidden">
-        <Image
-          src="/arch-botanical.jpg"
-          alt=""
-          width={640}
-          height={860}
-          className="w-full object-cover object-top opacity-25"
-          aria-hidden
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-cream to-transparent" />
-      </div>
-
-      <footer className="pb-10 text-center text-sm text-olive-light">
+      <footer className="pt-16 pb-10 text-center text-sm text-olive-light">
         Isabella &amp; Luciano · 21/11/2026
       </footer>
+
+      </div>
     </main>
   );
 }
