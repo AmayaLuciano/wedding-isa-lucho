@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase, Invitado, Transferencia, Regalo } from "@/lib/supabase";
+import { supabase, Invitado, Transferencia } from "@/lib/supabase";
+import { Regalo } from "@/lib/gifts";
 
 type Tab = "invitados" | "regalos" | "transferencias";
 
@@ -184,10 +185,13 @@ function RegalosTab() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.from("regalos").select("*").order("nombre").then(({ data }) => {
-      setRegalos(data ?? []);
-      setLoading(false);
-    });
+    fetch("/api/regalos")
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => {
+        setRegalos(Array.isArray(data) ? data : []);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   const reservados = regalos.filter((r) => r.reservado).length;

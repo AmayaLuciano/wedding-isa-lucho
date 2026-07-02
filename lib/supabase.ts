@@ -23,12 +23,3 @@ export type Transferencia = {
   created_at: string;
 };
 
-export type Regalo = {
-  id: string;
-  nombre: string;
-  link: string | null;
-  imagen: string | null;
-  precio: number | null;
-  reservado: boolean;
-  reservado_por: string | null;
-};

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { supabase, Regalo } from "@/lib/supabase";
+import { Regalo } from "@/lib/gifts";
 
 export default function GiftCard({ regalo, onUpdated }: { regalo: Regalo; onUpdated: (r: Regalo) => void }) {
   const [open, setOpen] = useState(false);
@@ -17,23 +17,30 @@ export default function GiftCard({ regalo, onUpdated }: { regalo: Regalo; onUpda
     setLoading(true);
     setError("");
 
-    // Defensa simple contra reservas simultáneas: solo actualiza si todavía no está reservado.
-    const { data, error: updateError } = await supabase
-      .from("regalos")
-      .update({ reservado: true, reservado_por: nombre.trim() })
-      .eq("id", regalo.id)
-      .eq("reservado", false)
-      .select()
-      .single();
+    let result: { ok?: boolean; error?: string } = {};
+    try {
+      const res = await fetch("/api/regalos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: regalo.id, reservado_por: nombre.trim() }),
+      });
+      result = await res.json();
+    } catch {
+      result = { ok: false, error: "fetch_failed" };
+    }
 
     setLoading(false);
 
-    if (updateError || !data) {
-      setError("Justo lo reservó otra persona. Recargá la página para ver la lista actualizada.");
+    if (!result.ok) {
+      setError(
+        result.error === "ya_reservado"
+          ? "Justo lo reservó otra persona. Recargá la página para ver la lista actualizada."
+          : "No se pudo reservar. Intentá de nuevo en un momento."
+      );
       return;
     }
 
-    onUpdated(data as Regalo);
+    onUpdated({ ...regalo, reservado: true, reservado_por: nombre.trim() });
     setOpen(false);
   }
 
@@ -47,6 +54,9 @@ export default function GiftCard({ regalo, onUpdated }: { regalo: Regalo; onUpda
         />
       )}
       <h3 className="font-serif text-xl text-olive">{regalo.nombre}</h3>
+      {regalo.descripcion && (
+        <p className="text-sm text-ink/70">{regalo.descripcion}</p>
+      )}
       {regalo.precio != null && (
         <p className="text-sm text-olive-light">${regalo.precio.toLocaleString("es-AR")}</p>
       )}

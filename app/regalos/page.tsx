@@ -2,23 +2,28 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { supabase, Regalo } from "@/lib/supabase";
+import { Regalo } from "@/lib/gifts";
 import GiftCard from "@/components/GiftCard";
 import FloralDivider from "@/components/FloralDivider";
 
 export default function RegalosPage() {
   const [regalos, setRegalos] = useState<Regalo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     let active = true;
-    supabase
-      .from("regalos")
-      .select("*")
-      .order("nombre", { ascending: true })
-      .then(({ data }) => {
-        if (active && data) setRegalos(data as Regalo[]);
-        setLoading(false);
+    fetch("/api/regalos")
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data) => {
+        if (active && Array.isArray(data)) setRegalos(data as Regalo[]);
+        if (active) setLoading(false);
+      })
+      .catch(() => {
+        if (active) {
+          setError(true);
+          setLoading(false);
+        }
       });
     return () => {
       active = false;
@@ -44,10 +49,12 @@ export default function RegalosPage() {
 
       {loading ? (
         <p className="mt-10 text-center text-olive-light">Cargando regalos...</p>
-      ) : regalos.length === 0 ? (
+      ) : error ? (
         <p className="mt-10 text-center text-olive-light">
-          Todavía no hay regalos cargados. Agregalos desde Supabase.
+          No pudimos cargar la lista en este momento. Probá recargar la página.
         </p>
+      ) : regalos.length === 0 ? (
+        <p className="mt-10 text-center text-olive-light">Todavía no hay regalos cargados.</p>
       ) : (
         <div className="mx-auto mt-10 grid max-w-4xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {regalos.map((r) => (
