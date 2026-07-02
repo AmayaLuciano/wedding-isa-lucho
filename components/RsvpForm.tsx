@@ -6,7 +6,6 @@ import { supabase } from "@/lib/supabase";
 export default function RsvpForm() {
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState(1);
-  const [nota, setNota] = useState("");
   const [estado, setEstado] = useState<"idle" | "loading" | "ok" | "error">("idle");
 
   async function handleSubmit(e: React.FormEvent) {
@@ -16,7 +15,7 @@ export default function RsvpForm() {
 
     const { error } = await supabase
       .from("invitados")
-      .insert({ nombre: nombre.trim(), cantidad, nota: nota.trim() || null });
+      .insert({ nombre: nombre.trim(), cantidad });
 
     setEstado(error ? "error" : "ok");
   }
@@ -54,16 +53,6 @@ export default function RsvpForm() {
             <option key={n} value={n}>{n} persona{n > 1 ? "s" : ""}</option>
           ))}
         </select>
-      </div>
-      <div>
-        <label className="block text-sm text-olive mb-1">Nota (opcional)</label>
-        <input
-          type="text"
-          value={nota}
-          onChange={(e) => setNota(e.target.value)}
-          placeholder="Ej: soy celíaco, no como mariscos…"
-          className="w-full rounded-lg border border-olive/30 bg-transparent px-4 py-2 text-ink placeholder:text-olive-light focus:outline-none focus:border-olive"
-        />
       </div>
       {estado === "error" && (
         <p className="text-sm text-red-500">Hubo un error. Intentá de nuevo.</p>
