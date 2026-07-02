@@ -1,68 +1,71 @@
 /**
- * Ilustraciones botánicas line-art de LAVANDA, al tono oliva de la web.
- * Trazo fino, sin relleno de color, hereda el color vía currentColor.
+ * Ilustraciones botánicas line-art — ramilletes de florcitas delicadas
+ * sobre tallos aireados (punto medio entre espigas de lavanda y flores).
+ * Trazo fino, sin color, hereda el tono oliva vía currentColor.
  */
 
-// —— Primitivas reutilizables ——————————————————————————
+// —— Primitivas ————————————————————————————————————————
 
-/** Espiga de lavanda: tallo con florcitas en la parte superior, apunta hacia arriba. */
-function Lavender({ x, y, rot = 0, s = 1 }: { x: number; y: number; rot?: number; s?: number }) {
-  // filas de florcitas (y, separación lateral, tamaño) — se afinan hacia la punta
-  const rows: [number, number, number][] = [
-    [-22, 5.0, 3.1],
-    [-27, 5.1, 3.1],
-    [-32, 4.7, 2.9],
-    [-37, 4.2, 2.6],
-    [-42, 3.6, 2.4],
-    [-47, 2.9, 2.1],
-    [-51, 2.2, 1.8],
-    [-55, 1.4, 1.6],
-  ];
+/** Florcita de 5 pétalos, pequeña y delicada. */
+function Floret({ x, y, s = 1, rot = 0 }: { x: number; y: number; s?: number; rot?: number }) {
+  const petal = "M0 0 C -3.4 -4 -3 -10 0 -12 C 3 -10 3.4 -4 0 0 Z";
   return (
     <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${s})`}>
-      {/* tallo */}
-      <path d="M0 0 C -1.5 -8 1.5 -16 0 -24" strokeWidth="1" />
-      {/* punta */}
-      <path d="M0 -55 C -1.4 -58 1.4 -58 0 -61" strokeWidth="0.9" />
-      {rows.map(([fy, dx, r], i) => (
-        <g key={i}>
-          <ellipse cx={-dx} cy={fy} rx={r * 0.62} ry={r} transform={`rotate(-28 ${-dx} ${fy})`} />
-          <ellipse cx={dx} cy={fy} rx={r * 0.62} ry={r} transform={`rotate(28 ${dx} ${fy})`} />
-        </g>
+      {[0, 72, 144, 216, 288].map((a) => (
+        <path key={a} d={petal} transform={`rotate(${a})`} />
       ))}
-      {/* florcita en la punta */}
-      <ellipse cx={0} cy={-58} rx={1.1} ry={1.7} />
+      <circle cx="0" cy="0" r="1.8" />
     </g>
   );
 }
 
-/** Hoja angosta de lavanda. */
+/** Capullo cerrado. */
+function Bud({ x, y, rot = 0, s = 1 }: { x: number; y: number; rot?: number; s?: number }) {
+  return (
+    <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${s})`}>
+      <path d="M0 0 C -2.6 -3 -2.6 -8 0 -11 C 2.6 -8 2.6 -3 0 0 Z" />
+      <path d="M0 0 C -1.4 -2.5 -1.4 -5 0 -7 M0 0 C 1.4 -2.5 1.4 -5 0 -7" strokeWidth="0.7" />
+    </g>
+  );
+}
+
+/** Hoja angosta. */
 function Leaf({ x, y, rot = 0, s = 1 }: { x: number; y: number; rot?: number; s?: number }) {
   return (
     <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${s})`}>
-      <path d="M0 0 C -3.5 -16 -3.5 -34 0 -44 C 3.5 -34 3.5 -16 0 0 Z" />
-      <path d="M0 -3 L0 -40" strokeWidth="0.7" />
+      <path d="M0 0 C -3.5 -14 -3.5 -30 0 -40 C 3.5 -30 3.5 -14 0 0 Z" />
+      <path d="M0 -3 L0 -36" strokeWidth="0.7" />
     </g>
   );
 }
 
-/** Ramillete de lavanda: abanico de espigas + hojas, base en (0,0), apunta hacia arriba. */
-function LavenderBunch({ s = 1 }: { s?: number }) {
+/** Ramillete de florcitas: abanico de tallos con flores, capullos y hojas. Base (0,0), apunta arriba. */
+function FlowerSpray({ s = 1 }: { s?: number }) {
   return (
     <g transform={`scale(${s})`}>
-      <Leaf x={-2} y={2} rot={-34} s={0.72} />
-      <Leaf x={2} y={2} rot={32} s={0.72} />
-      <Lavender x={0} y={0} rot={-20} s={0.95} />
-      <Lavender x={0} y={0} rot={-6} s={1.12} />
-      <Lavender x={0} y={0} rot={9} s={1.0} />
-      <Lavender x={0} y={0} rot={22} s={0.88} />
+      {/* hojas en la base */}
+      <Leaf x={-3} y={2} rot={-38} s={0.7} />
+      <Leaf x={3} y={2} rot={36} s={0.7} />
+      {/* tallos */}
+      <path d="M0 0 C -1 -20 1 -40 0 -55" />
+      <path d="M0 0 C -5 -16 -11 -30 -13 -46" />
+      <path d="M0 0 C 5 -16 11 -30 13 -46" />
+      <path d="M0 0 C -2 -12 -6 -22 -7 -32" />
+      <path d="M0 0 C 2 -12 6 -22 7 -32" />
+      {/* capullos en los tallos internos */}
+      <Bud x={-7} y={-32} rot={-18} s={1} />
+      <Bud x={7} y={-32} rot={18} s={1} />
+      {/* flores en las puntas */}
+      <Floret x={-13} y={-46} s={0.92} rot={-12} />
+      <Floret x={13} y={-46} s={0.92} rot={12} />
+      <Floret x={0} y={-55} s={1.08} />
     </g>
   );
 }
 
 // —— Composiciones ————————————————————————————————————
 
-/** Ramillete de esquina — enmarca sutilmente las esquinas de una sección. */
+/** Ramillete de esquina. */
 export function BotanicalCorner({ className = "" }: { className?: string }) {
   return (
     <svg
@@ -76,14 +79,14 @@ export function BotanicalCorner({ className = "" }: { className?: string }) {
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
-      <g transform="translate(52 170) rotate(28)">
-        <LavenderBunch s={1.7} />
+      <g transform="translate(50 172) rotate(26)">
+        <FlowerSpray s={1.9} />
       </g>
     </svg>
   );
 }
 
-/** Rama vertical — acento delicado en los bordes laterales. */
+/** Rama vertical para bordes laterales. */
 export function BotanicalBranch({ className = "" }: { className?: string }) {
   return (
     <svg
@@ -97,18 +100,18 @@ export function BotanicalBranch({ className = "" }: { className?: string }) {
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
-      <g transform="translate(55 250)">
-        <LavenderBunch s={2.6} />
+      <g transform="translate(55 260)">
+        <FlowerSpray s={2.8} />
       </g>
     </svg>
   );
 }
 
-/** Ramita horizontal pequeña — acento centrado bajo los títulos. */
+/** Ramita horizontal centrada bajo los títulos. */
 export function BotanicalSprig({ className = "" }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 160 60"
+      viewBox="0 0 160 56"
       className={className}
       fill="none"
       stroke="currentColor"
@@ -118,14 +121,12 @@ export function BotanicalSprig({ className = "" }: { className?: string }) {
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
-      <path d="M14 46 C 45 46 58 46 80 46 C 102 46 115 46 146 46" strokeWidth="0.8" />
-      <Leaf x={60} y={46} rot={-92} s={0.6} />
-      <Leaf x={100} y={46} rot={92} s={0.6} />
-      <g transform="translate(80 48)">
-        <Lavender x={-7} y={0} rot={-18} s={0.62} />
-        <Lavender x={0} y={0} rot={0} s={0.72} />
-        <Lavender x={7} y={0} rot={18} s={0.62} />
-      </g>
+      <path d="M14 40 C 45 40 58 40 80 40 C 102 40 115 40 146 40" strokeWidth="0.8" />
+      <Leaf x={58} y={40} rot={-92} s={0.55} />
+      <Leaf x={102} y={40} rot={92} s={0.55} />
+      <Bud x={72} y={30} rot={-14} s={0.9} />
+      <Bud x={88} y={30} rot={14} s={0.9} />
+      <Floret x={80} y={26} s={1.05} />
     </svg>
   );
 }
